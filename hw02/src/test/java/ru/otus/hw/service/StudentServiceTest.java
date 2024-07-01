@@ -2,21 +2,27 @@ package ru.otus.hw.service;
 
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import ru.otus.hw.domain.Student;
+
+
 
 public class StudentServiceTest {
 
+    @Mock
     private static StreamsIOService ioService;
 
+    @InjectMocks
     private static StudentServiceImpl studentService;
 
-    @BeforeAll
-    static void init() {
-        ioService = Mockito.mock(StreamsIOService.class);
-        studentService = new StudentServiceImpl(ioService);
+    @BeforeEach
+    public void init() {
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
