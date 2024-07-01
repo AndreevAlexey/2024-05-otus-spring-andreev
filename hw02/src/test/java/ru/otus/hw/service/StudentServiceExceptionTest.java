@@ -12,10 +12,10 @@ import org.mockito.MockitoAnnotations;
 public class StudentServiceExceptionTest {
 
     @Mock
-    private static StreamsIOService ioService;
+    private StreamsIOService ioService;
 
     @InjectMocks
-    private static StudentServiceImpl studentService;
+    private StudentServiceImpl studentService;
 
     @BeforeEach
     public void init() {

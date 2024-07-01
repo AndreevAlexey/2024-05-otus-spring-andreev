@@ -15,10 +15,10 @@ import ru.otus.hw.domain.Student;
 public class StudentServiceTest {
 
     @Mock
-    private static StreamsIOService ioService;
+    private StreamsIOService ioService;
 
     @InjectMocks
-    private static StudentServiceImpl studentService;
+    private StudentServiceImpl studentService;
 
     @BeforeEach
     public void init() {
