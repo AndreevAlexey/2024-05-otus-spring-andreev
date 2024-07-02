@@ -44,10 +44,7 @@ public class TestServiceImpl implements TestService {
 
     private int chooseAnswer(int max) {
         return ioService.readIntForRangeWithPromptLocalized(
-                                    1
-                                    , max
-                                    , "TestService.input.answer"
-                                    , "TestService.wrong.input");
+                                    1, max, "TestService.input.answer", "TestService.wrong.input");
     }
 
     private boolean checkAnswer(List<Answer> answers, int num) {
