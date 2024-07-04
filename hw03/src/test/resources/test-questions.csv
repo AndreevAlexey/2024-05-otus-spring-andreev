@@ -1,0 +1,4 @@
+# Добавить сюда своих вопросов. Эту строку надо пропустить при настройке CsvToBean (withSkipLines)
+Test question 1?;Right answer%true|Wrong answer%false
+Test question 2?;Wrong answer 1%true|Right answer%true|Wrong answer 2%false
+Test question 3?;Wrong answer 1%true|Wrong answer 2%false|Right answer%true
