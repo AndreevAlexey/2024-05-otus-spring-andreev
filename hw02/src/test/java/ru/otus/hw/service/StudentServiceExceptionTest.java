@@ -1,14 +1,14 @@
 package ru.otus.hw.service;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-
+@ExtendWith(MockitoExtension.class)
 public class StudentServiceExceptionTest {
 
     @Mock
@@ -16,11 +16,6 @@ public class StudentServiceExceptionTest {
 
     @InjectMocks
     private StudentServiceImpl studentService;
-
-    @BeforeEach
-    public void init() {
-        MockitoAnnotations.openMocks(this);
-    }
 
     @Test
     public void scanner_exception_throw_determineCurrentStudent_test() {

@@ -1,12 +1,12 @@
 package ru.otus.hw.dao;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 import ru.otus.hw.config.AppProperties;
 import ru.otus.hw.domain.Question;
 import ru.otus.hw.exceptions.QuestionReadException;
@@ -14,9 +14,9 @@ import ru.otus.hw.exceptions.QuestionReadException;
 import java.util.List;
 
 
+@ExtendWith(MockitoExtension.class)
 public class CsvQuestionDaoTest {
 
-    private static final int rightAnswerCountToPass = 3;
     private static final String fileName = "test-questions.csv";
 
     @Mock
@@ -25,17 +25,11 @@ public class CsvQuestionDaoTest {
     @InjectMocks
     private CsvQuestionDao dao;
 
-    @BeforeEach
-    public void init() {
-        MockitoAnnotations.openMocks(this);
-    }
-
     @Test
     public void success_reading_questions_from_file_test() {
         // given
         int questionCountExpected = 3;
         Mockito.when(fileNameProvider.getTestFileName()).thenReturn(fileName);
-        Mockito.when(fileNameProvider.getRightAnswersCountToPass()).thenReturn(rightAnswerCountToPass);
         // when
         List<Question> questions = dao.findAll();
         // then
@@ -48,7 +42,6 @@ public class CsvQuestionDaoTest {
         // given
         String emptyFileName = "not-exists-file.csv";
         Mockito.when(fileNameProvider.getTestFileName()).thenReturn(emptyFileName);
-        Mockito.when(fileNameProvider.getRightAnswersCountToPass()).thenReturn(rightAnswerCountToPass);
         // then
         Assertions.assertThrows(QuestionReadException.class, dao::findAll);
     }
