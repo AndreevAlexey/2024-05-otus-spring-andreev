@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:maindb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: pass
+
+  sql:
+    init:
+      mode: always
+      data-locations: data/data.sql
+      schema-locations: schema/schema.sql
+
+  h2:
+    console:
+      path: /h2-console
+      settings:
+        web-allow-others: true
+      enabled: true
