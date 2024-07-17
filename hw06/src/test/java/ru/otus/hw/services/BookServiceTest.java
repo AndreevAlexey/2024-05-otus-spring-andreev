@@ -28,6 +28,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Import({JpaAuthorRepository.class, JpaGenreRepository.class, JpaBookRepository.class, BookServiceImpl.class})
 public class BookServiceTest {
 
+    public static final long NOT_EXISTING_AUTHOR_ID = -1;
+
     @Autowired
     BookServiceImpl bookService;
 
@@ -46,6 +48,16 @@ public class BookServiceTest {
                 .get()
                 .isEqualTo(expectedBook)
                 .matches(book -> book.getAuthor().getFullName() != null);
+    }
+
+
+    @DisplayName("должен возвращать пустое значение по несуществующему ид")
+    @Test
+    void shouldReturnEmptyAuthorBookById() {
+        // when
+        var actualBook = bookService.findById(NOT_EXISTING_AUTHOR_ID);
+        // then
+        assertThat(actualBook).isEmpty();
     }
 
     @DisplayName("должен загружать список всех книг")

@@ -24,6 +24,10 @@ public class AuthorServiceImpl implements AuthorService {
     @Transactional(readOnly = true)
     @Override
     public Optional<Author> findById(long id) {
-        return authorRepository.findById(id);
+        try {
+            return authorRepository.findById(id);
+        } catch (Exception exp) {
+            return Optional.empty();
+        }
     }
 }

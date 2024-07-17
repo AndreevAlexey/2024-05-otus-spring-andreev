@@ -23,7 +23,11 @@ public class CommentServiceImpl implements CommentService {
     @Transactional(readOnly = true)
     @Override
     public Optional<Comment> findById(long id) {
-        return commentRepository.findById(id);
+        try {
+            return commentRepository.findById(id);
+        } catch (Exception exp) {
+            return Optional.empty();
+        }
     }
 
     @Transactional(readOnly = true)

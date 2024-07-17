@@ -23,6 +23,10 @@ public class GenreServiceImpl implements GenreService {
     @Transactional(readOnly = true)
     @Override
     public Optional<Genre> findById(long id) {
-        return genreRepository.findById(id);
+        try {
+            return genreRepository.findById(id);
+        } catch (Exception exp) {
+            return Optional.empty();
+        }
     }
 }

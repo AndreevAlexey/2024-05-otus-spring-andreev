@@ -24,7 +24,11 @@ public class BookServiceImpl implements BookService {
     @Transactional(readOnly = true)
     @Override
     public Optional<Book> findById(long id) {
-        return bookRepository.findById(id);
+        try {
+            return bookRepository.findById(id);
+        } catch (Exception exp) {
+            return Optional.empty();
+        }
     }
 
     @Transactional(readOnly = true)

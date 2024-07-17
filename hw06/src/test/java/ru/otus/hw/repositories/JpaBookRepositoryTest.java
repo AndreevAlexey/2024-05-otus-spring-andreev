@@ -23,6 +23,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Import({JpaBookRepository.class})
 class JpaBookRepositoryTest {
 
+
+
     @Autowired
     private JpaBookRepository bookRepository;
 
@@ -42,6 +44,7 @@ class JpaBookRepositoryTest {
                 .get()
                 .isEqualTo(expectedBook);
     }
+
 
     @DisplayName("должен загружать список всех книг")
     @Test

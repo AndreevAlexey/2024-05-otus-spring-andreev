@@ -26,6 +26,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Import({JpaCommentRepository.class, JpaBookRepository.class, CommentServiceImpl.class})
 public class CommentServiceTest {
 
+    public static final long NOT_EXISTING_AUTHOR_ID = -1;
+
     @Autowired
     CommentServiceImpl commentService;
 
@@ -46,6 +48,15 @@ public class CommentServiceTest {
                 .get()
                 .isEqualTo(expectedComment)
                 .matches(comment -> comment.getBook().getTitle() != null);
+    }
+
+    @DisplayName("должен возвращать пустое значение по несуществующему ид")
+    @Test
+    void shouldReturnEmptyAuthorBookById() {
+        // when
+        var actualComment = commentService.findById(NOT_EXISTING_AUTHOR_ID);
+        // then
+        assertThat(actualComment).isEmpty();
     }
 
     @DisplayName("должен возвращать список всех комментариев по ид книги")
