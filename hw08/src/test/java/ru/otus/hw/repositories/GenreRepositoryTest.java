@@ -1,12 +1,12 @@
 package ru.otus.hw.repositories;
 
-import de.flapdoodle.embed.mongo.spring.autoconfigure.EmbeddedMongoAutoConfiguration;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import ru.otus.hw.models.Genre;
 
@@ -14,7 +14,8 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DataMongoTest(excludeAutoConfiguration = EmbeddedMongoAutoConfiguration.class)
+@DataMongoTest
+@EnableConfigurationProperties
 public class GenreRepositoryTest {
 
     public static final String NOT_EXISTING_GENRE_ID = "-1";
