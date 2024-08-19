@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Genres</title>
+    <style>
+        body {
+            padding: 50px;
+        }
+
+        .genres {
+            border: 1px solid steelblue;
+            width: 300px;
+            border-collapse: collapse;
+        }
+
+        .genres tr td, th {
+            padding: 5px;
+            border: 1px solid steelblue;
+        }
+
+        .genres td:last-child, td:first-child {
+            width: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <a href="../main.html" th:href="@{/}">HOME</a>
+    </div>
+    <h3>GENRES</h3>
+    <table class="genres">
+        <tr>
+            <th>ID</th>
+            <th>NAME</th>
+        </tr>
+        <tbody>
+            <tr th:each="genre : ${genres}">
+                <td th:text="${genre.id}">0</td>
+                <td th:text="${genre.name}">""</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

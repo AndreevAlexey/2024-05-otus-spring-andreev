@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Comments</title>
+    <style>
+        body {
+            padding: 50px;
+        }
+
+        .comments {
+            border: 1px solid steelblue;
+            width: 300px;
+            border-collapse: collapse;
+        }
+
+        .comments tr td, th {
+            padding: 5px;
+            border: 1px solid steelblue;
+        }
+
+        .comments td:last-child, td:first-child {
+            width: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <a href="../main.html" th:href="@{/}">HOME</a>
+    </div>
+    <h3>COMMENTS</h3>
+    <table class="comments">
+        <tr>
+            <th>ID</th>
+            <th>BOOK</th>
+            <th>TEXT</th>
+            <th>edit</th>
+            <th>delete</th>
+        </tr>
+
+        <tbody>
+        <tr th:each="comment : ${comments}">
+            <td th:text="${comment.id}">0</td>
+            <td th:text="${comment.getBook().title}">""</td>
+            <td th:text="${comment.text}">""</td>
+            <td>
+                <a href="comment-edit.html" th:href="@{/comment/edit/__${comment.id}__}">edit</a>
+            </td>
+            <td>
+                <a href="comments.html" th:href="@{/comment/delete/__${comment.id}__}">delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div>
+        <a href="comment-add.html" th:href="@{/comment/add}">* add comment</a>
+    </div>
+</body>
+</html>

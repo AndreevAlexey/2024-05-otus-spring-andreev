@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Comments</title>
+    <style>
+        body {
+            padding: 50px;
+        }
+
+        .comments {
+            border: 1px solid steelblue;
+            width: 300px;
+            border-collapse: collapse;
+        }
+
+        .comments tr td, th {
+            padding: 5px;
+            border: 1px solid steelblue;
+        }
+
+        .comments td:last-child, td:first-child {
+            width: 50px;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <a href="books.html" th:href="@{/books}">BACK</a>
+</div>
+<h3>COMMENTS</h3>
+<table class="comments">
+    <tr>
+        <th>ID</th>
+        <th>TEXT</th>
+    </tr>
+
+    <tbody>
+    <tr th:each="comment : ${comments}">
+        <td th:text="${comment.id}">0</td>
+        <td th:text="${comment.text}">""</td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
