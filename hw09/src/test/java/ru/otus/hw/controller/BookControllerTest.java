@@ -1,7 +1,6 @@
 package ru.otus.hw.controller;
 
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,9 +29,6 @@ public class BookControllerTest {
 
     @Autowired
     private MockMvc mvc;
-
-    @Autowired
-    private ObjectMapper mapper;
 
     @MockBean
     private BookServiceImpl bookService;
@@ -114,41 +110,6 @@ public class BookControllerTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(header().string("Location", "/books"));
     }
-
-    /*@Test
-    void bookUpdateTestShouldRedirectToBooks() throws Exception {
-        // given
-        Book expected = books.get(1);
-//        given(bookService.update(2, "BookTitle_2", 2, 2)).willReturn(expected);
-        given(bookService.update(anyLong(), anyString(), any(), any())).willReturn(expected);
-        // then title=wwwwwwww&author=2&genre=2
-        mvc.perform(post("/book/update")
-                        .param("id", "2")
-                                .content("title=BookTitle_2&author=2&genre=2")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(mapper.writeValueAsString(expected))
-                )
-                .andExpect(status().is3xxRedirection())
-                .andExpect(header().string("Location", "/books"));
-    }
-
-    @Test
-    void bookInsertTestShouldRedirectToBooks() throws Exception {
-        // given
-        Book expected = new Book(4, "BookTitle_4", authors.get(0), genres.get(0));
-        given(bookService.insert("BookTitle_4", 1, 1)).willReturn(expected);
-        // then
-        mvc.perform(post("/book/insert")
-                        .param("id", "4")
-                        .param("title", "BookTitle_4")
-                        .param("authorId", "1")
-                        .param("genreId", "1")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(mapper.writeValueAsString(expected))
-                )
-                .andExpect(status().is3xxRedirection())
-                .andExpect(header().string("Location", "/books"));
-    }*/
 
     @Test
     void bookUpdateTestShouldRedirectToBooks() throws Exception {
