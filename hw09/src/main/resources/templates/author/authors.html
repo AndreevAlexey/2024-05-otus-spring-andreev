@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Authors</title>
+    <style>
+        body {
+            padding: 50px;
+        }
+
+        .authors {
+            border: 1px solid steelblue;
+            width: 300px;
+            border-collapse: collapse;
+        }
+
+        .authors tr td, th {
+            padding: 5px;
+            border: 1px solid steelblue;
+        }
+
+        .authors td:last-child, td:first-child {
+            width: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <a href="../main.html" th:href="@{/}">HOME</a>
+    </div>
+    <h3>AUTHORS</h3>
+    <table class="authors">
+        <tr>
+            <th>ID</th>
+            <th>FULL_NAME</th>
+        </tr>
+
+        <tbody>
+            <tr th:each="author : ${authors}">
+                <td th:text="${author.id}">0</td>
+                <td th:text="${author.fullName}">""</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

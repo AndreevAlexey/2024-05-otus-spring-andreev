@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit comment</title>
+    <style>
+        body {
+            padding: 50px;
+        }
+
+        label {
+            display: inline-block;
+            width: 100px;
+        }
+
+        input:read-only {
+            background: lightgray;
+        }
+
+        .row {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <form id="edit-comment-form" action="comment-edit.html" th:method="post" th:action="@{/comment/update/__${comment.id}__}" th:object="${comment}">
+        <h3>Comment:</h3>
+
+        <div class="row">
+            <label for="id-input">ID:</label>
+            <input id="id-input" type="text" readonly="readonly" value="0" th:value="*{id}"/>
+        </div>
+
+        <div class="row">
+            <label for="book-selector">BOOK:</label>
+            <select th:field="*{book}" class="form-control" id="book-selector">
+                <option th:each="book : ${books}" th:value="${book.id}" th:text="${book.getTitle()}"></option>
+            </select>
+        </div>
+
+        <div class="row">
+            <label for="comment-text-input">TEXT:</label>
+            <input id="comment-text-input" name="text" type="text" value="" th:value="*{text}"/>
+        </div>
+
+        <div class="row">
+            <button type="submit">Save</button>
+            <a href="comments.html" th:href="@{/comments}"><button type="button">Cancel</button></a>
+        </div>
+    </form>
+</body>
+</html>
