@@ -103,7 +103,6 @@ public class CommentRestControllerTest {
     @Test
     void commentEditTestShouldReturnCorrectCommentDto() throws Exception {
         // given
-        long commentId = 2L;
         Comment comment = comments.get(1);
         CommentDto expected = CommentDto.toDto(comment);
         given(commentService.update(comment)).willReturn(comment);
