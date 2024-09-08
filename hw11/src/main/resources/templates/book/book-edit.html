@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit book</title>
+    <style>
+        body {
+            padding: 50px;
+        }
+
+        label {
+            display: inline-block;
+            width: 100px;
+        }
+
+        input:read-only {
+            background: lightgray;
+        }
+
+        .row {
+            margin-top: 10px;
+        }
+
+    </style>
+    <script src="/webjars/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+        function updateBook() {
+            const id = document.getElementById("id-input")
+            const author = document.getElementById("author-selector")
+            const genre = document.getElementById("genre-selector")
+            const result = document.getElementById("save-result")
+            const title = document.getElementById("title-input")
+            // const book = { id : id.value, title : title.value, author : JSON.parse(author.value), genre : JSON.parse(genre.value)}
+            const book = { id : id.value, title : title.value, author : { id : author.value}, genre : { id : genre.value}}
+            fetch("/api/book", {
+                method: 'PUT',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(book)
+            })
+                .then(response => {
+                    if (!response.ok){
+                        response.text().then(text => result.innerHTML = "ERROR: " + text.toString())
+                    } else {
+                        result.innerHTML = "Successfully added"
+                    }
+                })
+        }
+    </script>
+    <script>
+        function getAuthors() {
+            fetch("/api/author")
+                .then(response => response.json())
+                .then(json => addToAuthorSelector(json));
+        }
+        function addToAuthorSelector(data){
+            const authors = document.getElementById("author-selector")
+            for(let i=0; i< data.length; i++){
+                let obj = data[i];
+                // let option = new Option(obj.fullName, JSON.stringify(obj))
+                let option = new Option(obj.fullName, obj.id)
+                option.id = obj.id
+                authors.add(option)
+            }
+        }
+        getAuthors();
+    </script>
+    <script>
+        function getGenres() {
+            fetch("/api/genre")
+                .then(response => response.json())
+                .then(json => addToGenreSelector(json));
+        }
+        function addToGenreSelector(data){
+            const genres = document.getElementById("genre-selector")
+            for(let i = 0; i < data.length; i++){
+                let obj = data[i];
+                // let option = new Option(obj.name, JSON.stringify(obj))
+                let option = new Option(obj.name, obj.id)
+                option.id = obj.id
+                genres.add(option)
+            }
+        }
+        getGenres();
+    </script>
+    <script>
+        function getCommentById() {
+            let url = document.URL
+            let bookId = url.substring(url.lastIndexOf('/') + 1)
+            fetch(`/api/book/${bookId}`)
+                .then(response => response.json())
+                .then(json => setCommentInfo(json))
+        }
+        function setCommentInfo(data) {
+            document.getElementById("id-input").value = data.id
+            document.getElementById("title-input").value = data.title
+            document.getElementById("author-selector").querySelector(`option[id = "${data.author.id}"]`).selected = true
+            document.getElementById("genre-selector").querySelector(`option[id = "${data.genre.id}"]`).selected = true
+        }
+        getCommentById()
+    </script>
+</head>
+<body>
+    <form id="edit-book-form" action="book-edit.html" >
+        <h3>Book info:</h3>
+
+        <div class="row">
+            <label for="id-input">ID:</label>
+            <input id="id-input" type="text" readonly="readonly" value="0"/>
+        </div>
+
+        <div class="row">
+            <label for="title-input">TITLE:</label>
+            <input id="title-input" name="title" type="text" value="" />
+        </div>
+
+        <div class="row">
+            <label for="author-selector">AUTHOR:</label>
+            <select class="form-control m-b" id="author-selector">
+            </select>
+        </div>
+
+        <div class="row">
+            <label for="genre-selector">GENRE:</label>
+            <select class="form-control m-b" id="genre-selector">
+            </select>
+        </div>
+
+        <div class="row">
+            <button type="button" onclick="updateBook()" >Save</button>
+            <a href="/book" ><button type="button">Back</button></a>
+        </div>
+    </form>
+    <h3>Result:</h3>
+    <pre id = "save-result"></pre>
+</body>
+</html>
