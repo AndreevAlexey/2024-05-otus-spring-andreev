@@ -1,0 +1,41 @@
+spring:
+  main:
+    allow-circular-references: true
+
+  batch:
+    job:
+      enabled: false
+    jdbc:
+      initialize-schema: always
+
+  shell:
+    interactive:
+      enabled: true
+    noninteractive:
+      enabled: false
+
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: otus_migr
+
+  datasource:
+    # Эти свойства будут перегружены свойствами в docker-compose.yml
+    url: jdbc:postgresql://localhost:5432/db
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+
+  flyway:
+    enabled: true
+
+settings:
+  chunk-size: 5
+  page-size: 5
+  prefix-mongo-id : "item_"

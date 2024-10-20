@@ -1,0 +1,46 @@
+version: "3.7"
+
+services:
+
+  postgres:
+    image: "postgres:13"
+    container_name: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=db
+    volumes:
+      - db:/data/postgres
+
+  mongodb:
+    image: mongo:6-jammy
+    container_name: mongodb
+    environment:
+      MONGO_INITDB_DATABASE: otus_migr
+    ports:
+      - "27017:27017"
+    volumes:
+      - db:/data/mongodb
+
+  app:
+    depends_on:
+      - postgres
+      - mongodb
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: app
+    ports:
+      - "8080:8080"
+    environment:
+        - SPRING_DATA_MONGODB_HOST=mongodb
+        - SPRING_DATA_MONGODB_PORT=27017
+        - SPRING_DATA_MONGODB_DATABASE=otus_migr
+        - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/db
+        - SPRING_DATASOURCE_USERNAME=postgres
+        - SPRING_DATASOURCE_PASSWORD=postgres
+
+volumes:
+  db:
