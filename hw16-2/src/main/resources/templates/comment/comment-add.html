@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add comment</title>
+    <style>
+        body {
+            padding: 50px;
+        }
+
+        label {
+            display: inline-block;
+            width: 100px;
+        }
+
+        input:read-only {
+            background: lightgray;
+        }
+
+        .row {
+            margin-top: 10px;
+        }
+    </style>
+    <script src="/webjars/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+        function saveComment() {
+            const book = document.getElementById("book-selector")
+            const result = document.getElementById("save-result")
+            const textInput = document.getElementById("comment-text-input")
+            const comment = { book: JSON.parse(book.value), text : textInput.value}
+            fetch("/api/comment", {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(comment)
+            })
+                .then(response => {
+                    console.log(response)
+                    if (!response.ok){
+                        response.text().then(text => result.innerHTML = "ERROR: " + text.toString())
+                    } else {
+                        let data = response.json()
+                        sessionStorage.setItem("comment_" + data.id, JSON.stringify(data))
+                        result.innerHTML = "Successfully added"
+                        document.getElementById("add-comment-form").reset()
+                    }
+                })
+                .catch(err => {
+                    result.innerHTML = err
+                    console.log(err)
+                })
+
+        }
+    </script>
+    <script>
+        function getBooks() {
+            fetch("/api/book")
+                .then(response => response.json())
+                .then(json => addToSelector(json));
+        }
+        function addToSelector(data){
+            const books = document.getElementById("book-selector")
+            for(let i=0; i< data.length; i++){
+                let obj = data[i];
+                let option = new Option(obj.title, JSON.stringify(obj))
+                books.add(option)
+            }
+        }
+        getBooks();
+    </script>
+</head>
+<body>
+    <form id="add-comment-form" action="comment-add.html" >
+        <h3>Comment:</h3>
+
+        <div class="row">
+            <label for="book-selector">BOOK:</label>
+            <select class="form-control m-b" id="book-selector">
+                <option value=0 ></option>
+            </select>
+        </div>
+
+        <div class="row">
+            <label for="comment-text-input">TEXT:</label>
+            <input id="comment-text-input" name="text" type="text" value=""/>
+        </div>
+
+        <div class="row">
+            <button type="button" onclick="saveComment()" >Save</button>
+            <a href="/comment" ><button type="button">Back</button></a>
+        </div>
+    </form>
+    <h3>Result:</h3>
+    <pre id = "save-result"></pre>
+</body>
+</html>

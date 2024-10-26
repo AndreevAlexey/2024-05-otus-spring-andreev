@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Comments</title>
+    <style>
+        body {
+            padding: 50px;
+        }
+
+        .comments {
+            border: 1px solid steelblue;
+            width: 300px;
+            border-collapse: collapse;
+        }
+
+        .comments tr td, th {
+            padding: 5px;
+            border: 1px solid steelblue;
+        }
+
+        .comments td:last-child, td:first-child {
+            width: 50px;
+        }
+    </style>
+    <script src="/webjars/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+    <div class="row">
+        <a href="/logout" >LOG OUT</a>
+    </div>
+    <div>
+        <a href="/" >HOME</a>
+    </div>
+    <h3>COMMENTS</h3>
+    <table id="comment-table" class="comments">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>BOOK</th>
+                <th>TEXT</th>
+                <th>edit</th>
+                <th>delete</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <div>
+        <a href="/comment/add" >* add comment</a>
+    </div>
+    <script>
+        function getComments() {
+            fetch("/api/comment")
+                .then(response => response.json())
+                .then(json => addToCommentsTable(json));
+        }
+        function addToCommentsTable(data){
+            for(let i=0; i< data.length; i++){
+                let obj = data[i];
+
+                // sessionStorage.setItem("comment_" + obj.id, JSON.stringify(obj))
+
+                $('tbody').append(`<tr id="${obj.id}">
+                                    <td> ${obj.id} </td>
+                                    <td> ${obj.book.title} </td>
+                                    <td> ${obj.text} </td>
+                                    <td>
+                                        <a href="/comment/edit/${obj.id}" >edit</a>
+                                    </td>
+                                    <td>
+                                        <button onclick="deleteComment(${obj.id})">delete</button>
+                                    </td>
+                                   </tr>`)
+            }
+        }
+        getComments();
+    </script>
+    <script>
+        function deleteComment(id) {
+           fetch(`/api/comment/${id}`, {
+               method: 'DELETE'
+           })
+                .then(response => {
+                    if (response.ok) {
+                        $('#' + id).remove();
+                        // sessionStorage.removeItem("comment_" + id)
+                    }
+                })
+        }
+    </script>
+</body>
+</html>
