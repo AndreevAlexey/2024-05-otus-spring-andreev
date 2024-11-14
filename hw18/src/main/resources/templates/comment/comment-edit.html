@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit comment</title>
+    <style>
+        body {
+            padding: 50px;
+        }
+
+        label {
+            display: inline-block;
+            width: 100px;
+        }
+
+        input:read-only {
+            background: lightgray;
+        }
+
+        .row {
+            margin-top: 10px;
+        }
+    </style>
+    <script src="/webjars/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+        function updateComment() {
+            const id = document.getElementById("id-input")
+            const book = document.getElementById("book-selector")
+            const result = document.getElementById("save-result")
+            const textInput = document.getElementById("text-input")
+            const comment = { id : id.value, book : {id : book.value}, text : textInput.value}
+            fetch("/api/comment", {
+                method: 'PUT',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(comment)
+            })
+                .then(response => {
+                    if (!response.ok){
+                        response.text().then(text => result.innerHTML = "ERROR: " + text.toString())
+                    } else {
+                        result.innerHTML = "Successfully saved"
+                    }
+                })
+        }
+    </script>
+    <script>
+        function getBooks() {
+            fetch("/api/book")
+                .then(response => response.json())
+                .then(json => addToBookSelector(json));
+        }
+        function addToBookSelector(data){
+            const books = document.getElementById("book-selector")
+            for(let i = 0; i < data.length; i++){
+                let obj = data[i];
+                let option = new Option(obj.title, obj.id)
+                option.id = obj.id
+                books.add(option)
+            }
+        }
+        getBooks()
+    </script>
+    <script>
+        function getCommentById() {
+            let url = document.URL
+            let commentId = url.substring(url.lastIndexOf('/') + 1)
+            fetch(`/api/comment/${commentId}`)
+                .then(response => response.json())
+                .then(json => setCommentInfo(json))
+        }
+        function setCommentInfo(data) {
+            document.getElementById("id-input").value = data.id;
+            const bookId = data.book.id
+            document.getElementById("book-selector").querySelector(`option[id="${bookId}"]`).selected = true;
+            document.getElementById("text-input").value = data.text;
+        }
+        getCommentById()
+    </script>
+</head>
+<body>
+    <form id="edit-comment-form" action="comment-edit.html" >
+        <h3>Comment:</h3>
+
+        <div class="row">
+            <label for="id-input">ID:</label>
+            <input id="id-input" type="text" readonly="readonly" />
+        </div>
+
+        <div class="row">
+            <label for="book-selector">BOOK:</label>
+            <select class="form-control" id="book-selector">
+            </select>
+        </div>
+
+        <div class="row">
+            <label for="text-input">TEXT:</label>
+            <input id="text-input" type="text"/>
+        </div>
+
+        <div class="row">
+            <button type="button" onclick="updateComment()" >Save</button>
+            <a href="/comment" ><button type="button">Back</button></a>
+        </div>
+    </form>
+    <h3>Result:</h3>
+    <pre id = "save-result"></pre>
+</body>
+</html>

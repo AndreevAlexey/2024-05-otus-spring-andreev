@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="UTF-8">
+    <title>Authors</title>
+    <style>
+        body {
+            padding: 50px;
+        }
+
+        .authors {
+            border: 1px solid steelblue;
+            width: 300px;
+            border-collapse: collapse;
+        }
+
+        .authors tr td, th {
+            padding: 5px;
+            border: 1px solid steelblue;
+        }
+
+        .authors td:last-child, td:first-child {
+            width: 50px;
+        }
+    </style>
+    <script src="/webjars/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+    <div>
+        <a href="/" >HOME</a>
+    </div>
+    <h3>AUTHORS</h3>
+    <table class="authors">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>FULL_NAME</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <script>
+        function getAuthors() {
+            fetch("/api/author")
+                .then(response => response.json())
+                .then(json => show(json));
+        }
+        function show(data){
+            for(let i=0; i< data.length; i++){
+                let obj = data[i];
+                $('tbody').append(`
+                                      <tr>
+                                        <td> ${obj.id} </td>
+                                        <td> ${obj.fullName} </td>
+                                      </tr>
+                                    `)
+            }
+        }
+        getAuthors();
+    </script>
+</body>
+
+</html>
