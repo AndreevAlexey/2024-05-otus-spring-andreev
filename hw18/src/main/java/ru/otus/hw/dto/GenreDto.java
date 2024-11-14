@@ -15,12 +15,6 @@ public class GenreDto {
 
     private String name;
 
-/*    public static GenreDto toDto(Genre genre) {
-        return (genre instanceof HibernateProxy)
-                ? new GenreDto()
-                : new GenreDto(genre.getId(), genre.getName());
-    }*/
-
     public static GenreDto toDto(Genre genre) {
         return
                 new GenreDto(genre.getId(), genre.getName());

@@ -20,15 +20,6 @@ public class BookDto {
 
     private GenreDto genre;
 
-/*    public static BookDto toDto(Book book) {
-        return (book instanceof HibernateProxy)
-                ? new BookDto()
-                : new BookDto(book.getId()
-                            , book.getTitle()
-                            , AuthorDto.toDto(book.getAuthor())
-                            , GenreDto.toDto(book.getGenre()));
-    }*/
-
     public static BookDto toDto(Book book) {
         return
                 new BookDto(book.getId()

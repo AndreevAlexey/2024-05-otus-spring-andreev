@@ -18,12 +18,6 @@ public class CommentDto {
 
     private String text;
 
-/*    public static CommentDto toDto(Comment comment) {
-        return (comment instanceof HibernateProxy)
-                ? new CommentDto()
-                : new CommentDto(comment.getId(), BookDto.toDto(comment.getBook()), comment.getText());
-    }*/
-
     public static CommentDto toDto(Comment comment) {
         return
                 new CommentDto(comment.getId(), BookDto.toDto(comment.getBook()), comment.getText());

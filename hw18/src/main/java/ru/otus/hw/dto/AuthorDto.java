@@ -15,12 +15,6 @@ public class AuthorDto {
 
     private String fullName;
 
-/*    public static AuthorDto toDto(Author author) {
-        return (author instanceof HibernateProxy)
-                ? new AuthorDto()
-                : new AuthorDto(author.getId(), author.getFullName());
-    }*/
-
     public static AuthorDto toDto(Author author) {
         return
                 new AuthorDto(author.getId(), author.getFullName());
